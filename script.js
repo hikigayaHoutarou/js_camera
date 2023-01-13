@@ -23,6 +23,7 @@ const constraints = {
       ideal: 1080,
       max: 1440
     },
+    facingMode: 'environment'
   }
 };
 
@@ -71,7 +72,7 @@ const handleStream = (stream) => {
   window.localAudio.autoplay = true;
 };
 
-getCameraSelection();
+// getCameraSelection();
 
 cameraOptions.onchange = () => {
   const updatedConstraints = {
