@@ -26,7 +26,7 @@ play.onclick = () => {
     const updatedConstraints = {
       ...constraints,
       video: {
-        facingMode: 'environment'
+        facingMode: 'user'
       }
     };
     startStream(updatedConstraints);
