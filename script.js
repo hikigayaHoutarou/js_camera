@@ -8,6 +8,7 @@ const screenshotImage = document.querySelector('img');
 const buttons = [...controls.querySelectorAll('button')];
 
 let streamStarted = false;
+let facingMode = 'environment';
 
 const [play, pause, screenshot] = buttons;
 
@@ -23,18 +24,9 @@ const constraints = {
       ideal: 1080,
       max: 1440
     },
-    facingMode: 'environment'
-  }
-};
-
-const getCameraSelection = async () => {
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  const videoDevices = devices.filter(device => device.kind === 'videoinput');
-  const options = videoDevices.map(videoDevice => {
-    return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
-  });
-  console.log(options);
-  cameraOptions.innerHTML = options.join('');
+    facingMode: facingMode
+  },
+  audio: true
 };
 
 play.onclick = () => {
@@ -46,10 +38,7 @@ play.onclick = () => {
   }
   if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
     const updatedConstraints = {
-      ...constraints,
-      deviceId: {
-        exact: cameraOptions.value
-      }
+      ...constraints
     };
     startStream(updatedConstraints);
   }
@@ -72,14 +61,11 @@ const handleStream = (stream) => {
   window.localAudio.autoplay = true;
 };
 
-// getCameraSelection();
 
-cameraOptions.onchange = () => {
+cameraOptions.onchange = (v) => {
+  facingMode = v;
   const updatedConstraints = {
-    ...constraints,
-    deviceId: {
-      exact: cameraOptions.value
-    }
+    ...constraints
   };
   startStream(updatedConstraints);
 };
@@ -100,3 +86,4 @@ const doScreenshot = () => {
 
 pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
+
