@@ -81,13 +81,25 @@ pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
 
 
-const successCallback = (position) => {
-  alert(`Your current Location: latitude: ${position.coords.latitude}, longitude: ${position.coords.longitude}`);
-};
+function getLocation() {
+  const successCallback = (position) => {
+    alert(`Your current Location: latitude: ${position.coords.latitude}, longitude: ${position.coords.longitude}`);
+  };
+  const errorCallback = (error) => {
+    alert(error.message);
+  };
+  
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+}
 
-const errorCallback = (error) => {
-  alert(error.message);
-};
-
-navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+const props = ['name', 'email', 'tel', 'address', 'icon'];
+const opts = {multiple: true};
+async function getContacts() {
+  try {
+      const contacts = await navigator.contacts.select(props, opts);
+      alert(contacts.join(', '));
+  } catch (e) {
+    alert(e);
+  }
+}
 
