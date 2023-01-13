@@ -26,7 +26,7 @@ play.onclick = () => {
     const updatedConstraints = {
       ...constraints,
       video: {
-        facingMode: 'user'
+        facingMode: cameraOptions.value
       }
     };
     startStream(updatedConstraints);
@@ -79,4 +79,15 @@ const doScreenshot = () => {
 
 pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
+
+
+const successCallback = (position) => {
+  alert(`Your current Location: latitude: ${position.coords.latitude}, longitude: ${position.coords.longitude}`);
+};
+
+const errorCallback = (error) => {
+  alert(error.message);
+};
+
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
